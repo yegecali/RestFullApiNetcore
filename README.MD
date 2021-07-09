@@ -15,3 +15,6 @@ Api desarrollado con .NetCore 5
 5. Hateos
 ## Author 
 Genderson Canchari Lizarbe
+## Referencias
+* Github - [https://github.com/jebmole/SocialMedia](https://github.com/jebmole/SocialMedia)
+* YouTube - [https://www.youtube.com/watch?v=swLZW434wVE&list=PL8lhy0LOIPBszfp9aHLNDUCIfD2sUn0at&index=4](https://www.youtube.com/watch?v=swLZW434wVE&list=PL8lhy0LOIPBszfp9aHLNDUCIfD2sUn0at&index=4)

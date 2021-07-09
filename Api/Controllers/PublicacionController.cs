@@ -1,4 +1,5 @@
-﻿using Infraestructure.Repos;
+﻿using Core.Interfaces;
+using Infraestructure.Repos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,11 +13,17 @@ namespace Api.Controllers
     [ApiController]
     public class PublicacionController : ControllerBase
     {
-        [HttpGet]
-        public IActionResult GetPosts() 
+        private readonly IPublicacionRepo _publicacionRepo;
+        public PublicacionController(IPublicacionRepo publicacionRepo)
         {
-            var publicaciones = new PublicacionRepo().GetPublicaciones();
+            _publicacionRepo = publicacionRepo;
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetPosts() 
+        {
+            var publicaciones = await _publicacionRepo.GetPublicaciones();
             return Ok(publicaciones);
         }
     }
 }
+ 

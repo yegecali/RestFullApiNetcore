@@ -1,4 +1,7 @@
 ﻿using Core.Entities;
+using Core.Interfaces;
+using Infraestructure.Data;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,19 +10,17 @@ using System.Threading.Tasks;
 
 namespace Infraestructure.Repos
 {
-    public class PublicacionRepo
+    public class PublicacionRepo : IPublicacionRepo
     {
-        public IEnumerable<Publicacion> GetPublicaciones()
+        private readonly SocialMediaContext _context;
+        public PublicacionRepo(SocialMediaContext context)
         {
-            var publicaciones = Enumerable.Range(1,10).Select(x => new Publicacion
-            {
-                PublicacionId = x,
-                Description = $"Descripcion {x}",
-                Date = DateTime.Now,
-                Image = $"http://algo.com{x}",
-                UserId = x * 2
-            } );
-            return publicaciones;
+            _context = context;
         }
+        public async Task<IEnumerable<Publicacion>> GetPublicaciones()
+        {
+            var publicaciones = await _context.Publicacions.ToListAsync();            
+            return publicaciones;
+        } 
     }
 }
