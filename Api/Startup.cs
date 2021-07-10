@@ -31,9 +31,7 @@ namespace Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddDbContext<SocialMediaContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("SocialMedia"))
-                );
+            services.AddDbContext<SocialMediaContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SocialMedia")));
             services.AddTransient<IPublicacionRepo, PublicacionRepo>();
             services.AddSwaggerGen(c =>
             {

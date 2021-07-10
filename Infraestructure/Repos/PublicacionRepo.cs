@@ -21,6 +21,12 @@ namespace Infraestructure.Repos
         {
             var publicaciones = await _context.Publicacions.ToListAsync();            
             return publicaciones;
-        } 
+        }
+        public async Task<Publicacion> GetPublicacion(int id) 
+        {
+            var publicacion = await _context.Publicacions.FirstOrDefaultAsync();
+            return publicacion;
+        }
+
     }
 }

@@ -10,5 +10,6 @@ namespace Core.Interfaces
     public interface IPublicacionRepo
     {
         Task<IEnumerable<Publicacion>> GetPublicaciones();
+        Task<Publicacion> GetPublicacion(int id);
     }
 }

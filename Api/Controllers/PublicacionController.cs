@@ -19,10 +19,16 @@ namespace Api.Controllers
             _publicacionRepo = publicacionRepo;
         }
         [HttpGet]
-        public async Task<IActionResult> GetPosts() 
+        public async Task<IActionResult> GetPublicaciones() 
         {
             var publicaciones = await _publicacionRepo.GetPublicaciones();
             return Ok(publicaciones);
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetPublicacion(int id)
+        {
+            var publicacion = await _publicacionRepo.GetPublicacion(id);
+            return Ok(publicacion);
         }
     }
 }
