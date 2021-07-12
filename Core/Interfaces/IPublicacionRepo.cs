@@ -11,5 +11,6 @@ namespace Core.Interfaces
     {
         Task<IEnumerable<Publicacion>> GetPublicaciones();
         Task<Publicacion> GetPublicacion(int id);
+        Task InsertPublicacion(Publicacion pub);
     }
 }

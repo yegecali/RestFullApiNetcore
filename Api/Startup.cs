@@ -1,5 +1,7 @@
 using Core.Interfaces;
+using FluentValidation.AspNetCore;
 using Infraestructure.Data;
+using Infraestructure.Filters;
 using Infraestructure.Repos;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,12 +32,27 @@ namespace Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            }).ConfigureApiBehaviorOptions(options => 
+            {
+                //options.SuppressModelStateInvalidFilter = true;
+            });
             services.AddDbContext<SocialMediaContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SocialMedia")));
             services.AddTransient<IPublicacionRepo, PublicacionRepo>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" });
+            });
+            services.AddMvc(options =>
+            {
+                options.Filters.Add<ValidationFilter>();
+            })
+            .AddFluentValidation(options =>
+            {
+                options.RegisterValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
             });
         }
 

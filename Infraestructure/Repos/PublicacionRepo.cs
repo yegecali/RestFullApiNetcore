@@ -27,6 +27,10 @@ namespace Infraestructure.Repos
             var publicacion = await _context.Publicacions.FirstOrDefaultAsync();
             return publicacion;
         }
-
+        public async Task InsertPublicacion(Publicacion pub)
+        {
+            _context.Publicacions.Add(pub);
+            await _context.SaveChangesAsync();
+        }
     }
 }
