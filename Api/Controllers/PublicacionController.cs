@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Api.Responses;
+using AutoMapper;
 using Core.DTOs;
 using Core.Entities;
 using Core.Interfaces;
@@ -28,6 +29,7 @@ namespace Api.Controllers
         {
             var publicaciones = await _publicacionRepo.GetPublicaciones();
             var publicacionesDto = _mapper.Map<IEnumerable<PublicacionDto>>(publicaciones);
+            //var response = new ApiResponse<IEnumerable<PublicacionDto>>(publicacionesDto);
             return Ok(publicacionesDto);
         }
         [HttpGet("{id}")]
@@ -35,14 +37,33 @@ namespace Api.Controllers
         {
             var publicacion = await _publicacionRepo.GetPublicacion(id);
             var publicacionDto = _mapper.Map<PublicacionDto>(publicacion);
-            return Ok(publicacionDto);
+            var response = new ApiResponse<PublicacionDto>(publicacionDto);
+            return Ok(response);
         }
         [HttpPost]
         public async Task<IActionResult> CreatePublicacion(PublicacionDto publi)
         {
             var publicacion = _mapper.Map<Publicacion>(publi);
             await _publicacionRepo.InsertPublicacion(publicacion);
-            return Ok(publi);
+            var publicacionDto = _mapper.Map<PublicacionDto>(publicacion);
+            var response = new ApiResponse<PublicacionDto>(publicacionDto);
+            return Ok(response);
+        }
+        [HttpPut]
+        public async Task<IActionResult> ActualizarPublicacion(int id,  PublicacionDto publi)
+        {
+            var publicacion = _mapper.Map<Publicacion>(publi);
+            publi.IdPublicacion = id;
+            var result = await _publicacionRepo.UpdatePublicacion(publicacion);
+            var response = new ApiResponse<bool>(result);
+            return Ok(response);
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> EliminarPublicacion(int id) 
+        {
+            var result = await _publicacionRepo.DeletePublicacion(id);
+            var response = new ApiResponse<bool>(result);
+            return Ok(response);
         }
     }
 }
