@@ -43,8 +43,8 @@ namespace Api
             });
             services.AddDbContext<SocialMediaContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SocialMedia")));
             services.AddTransient<IPublicacionService, PublicacionService>();
-            services.AddTransient<IPublicacionRepo, PublicacionRepo>();
-            services.AddTransient<IUserRepo, UserRepo>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" });

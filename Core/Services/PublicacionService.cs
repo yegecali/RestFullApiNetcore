@@ -10,32 +10,32 @@ namespace Core.Services
 {
     public class PublicacionService : IPublicacionService
     {
-        private readonly IPublicacionRepo _publicacionRepo;
-        private readonly IUserRepo _userRepo;
-        public PublicacionService(IPublicacionRepo publicacionRepo, IUserRepo userRepo)
+        private readonly IUnitOfWork _unitOfWork;
+
+        public PublicacionService(IUnitOfWork unitOfWork)
         {
-            _publicacionRepo = publicacionRepo;
-            _userRepo = userRepo;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<bool> DeletePublicacion(int id)
         {
-            return await _publicacionRepo.DeletePublicacion(id);
+            await _unitOfWork.PublicacionRepo.Delete(id);
+            return true;
         }
 
         public async Task<Publicacion> getPublicacion(int id)
         {
-            return await _publicacionRepo.GetPublicacion(id);
+            return await _unitOfWork.PublicacionRepo.GetById(id);
         }
 
         public async Task<IEnumerable<Publicacion>> getPublicaciones()
         {
-            return await _publicacionRepo.GetPublicaciones();
+            return await _unitOfWork.PublicacionRepo.GetAll();
         }
 
         public async Task InsertarPublicacion(Publicacion publicacion)
         {
-            var user = await _userRepo.GetUsuario(publicacion.IdUsuario);
+            var user = await _unitOfWork.UsuarioRepo.GetById(publicacion.IdUsuario);
             if (user == null) 
             {
                 throw new Exception("Usuario no existe");
@@ -44,12 +44,13 @@ namespace Core.Services
             {
                 throw new Exception("Contenido no permitido");
             }
-            await _publicacionRepo.InsertPublicacion(publicacion);
+            await _unitOfWork.PublicacionRepo.Add(publicacion);
         }
 
         public async Task<bool> UpdatePublicacion(Publicacion publicacion)
         {
-            return await _publicacionRepo.UpdatePublicacion(publicacion);
+            await _unitOfWork.PublicacionRepo.Update(publicacion);
+            return true; 
         }
     }
 }

@@ -13,10 +13,10 @@ namespace Infraestructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Usuario> entity)
         {
-            entity.HasKey(e => e.IdUsuario);
+            entity.HasKey(e => e.Id);
 
             entity.ToTable("Usuario");
-
+            entity.Property(e => e.Id).HasColumnName("IdUsuario");
             entity.Property(e => e.Apellidos)
                 .IsRequired()
                 .HasMaxLength(50)

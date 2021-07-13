@@ -13,11 +13,11 @@ namespace Infraestructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Comentario> entity)
         {
-            entity.HasKey(e => e.IdComentario);
+            entity.HasKey(e => e.Id);
 
             entity.ToTable("Comentario");
 
-            entity.Property(e => e.IdComentario).ValueGeneratedNever();
+            entity.Property(e => e.Id).ValueGeneratedNever().HasColumnName("IdComentario");
 
             entity.Property(e => e.Descripcion)
                 .IsRequired()

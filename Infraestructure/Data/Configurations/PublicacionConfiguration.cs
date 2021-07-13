@@ -13,8 +13,8 @@ namespace Infraestructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Publicacion> entity)
         {
-            entity.HasKey(e => e.IdPublicacion);
-
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).HasColumnName("IdPublicacion");
             entity.ToTable("Publicacion");
 
             entity.Property(e => e.Descripcion)
