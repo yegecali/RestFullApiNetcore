@@ -17,17 +17,17 @@ namespace Api.Controllers
     [ApiController]
     public class PublicacionController : ControllerBase
     {
-        private readonly IPublicacionRepo _publicacionRepo;
+        private readonly IPublicacionService _publicacionService;
         private readonly IMapper _mapper;
-        public PublicacionController(IPublicacionRepo publicacionRepo, IMapper mapper)
+        public PublicacionController(IPublicacionService publicacionService, IMapper mapper)
         {
-            _publicacionRepo = publicacionRepo;
+            _publicacionService = publicacionService;
             _mapper = mapper;
         }
         [HttpGet]
         public async Task<IActionResult> GetPublicaciones() 
         {
-            var publicaciones = await _publicacionRepo.GetPublicaciones();
+            var publicaciones = await _publicacionService.getPublicaciones();
             var publicacionesDto = _mapper.Map<IEnumerable<PublicacionDto>>(publicaciones);
             //var response = new ApiResponse<IEnumerable<PublicacionDto>>(publicacionesDto);
             return Ok(publicacionesDto);
@@ -35,7 +35,7 @@ namespace Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPublicacion(int id)
         {
-            var publicacion = await _publicacionRepo.GetPublicacion(id);
+            var publicacion = await _publicacionService.getPublicacion(id);
             var publicacionDto = _mapper.Map<PublicacionDto>(publicacion);
             var response = new ApiResponse<PublicacionDto>(publicacionDto);
             return Ok(response);
@@ -44,7 +44,7 @@ namespace Api.Controllers
         public async Task<IActionResult> CreatePublicacion(PublicacionDto publi)
         {
             var publicacion = _mapper.Map<Publicacion>(publi);
-            await _publicacionRepo.InsertPublicacion(publicacion);
+            await _publicacionService.InsertarPublicacion(publicacion);
             var publicacionDto = _mapper.Map<PublicacionDto>(publicacion);
             var response = new ApiResponse<PublicacionDto>(publicacionDto);
             return Ok(response);
@@ -54,14 +54,14 @@ namespace Api.Controllers
         {
             var publicacion = _mapper.Map<Publicacion>(publi);
             publi.IdPublicacion = id;
-            var result = await _publicacionRepo.UpdatePublicacion(publicacion);
+            var result = await _publicacionService.UpdatePublicacion(publicacion);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> EliminarPublicacion(int id) 
         {
-            var result = await _publicacionRepo.DeletePublicacion(id);
+            var result = await _publicacionService.DeletePublicacion(id);
             var response = new ApiResponse<bool>(result);
             return Ok(response);
         }

@@ -1,4 +1,5 @@
 using Core.Interfaces;
+using Core.Services;
 using FluentValidation.AspNetCore;
 using Infraestructure.Data;
 using Infraestructure.Filters;
@@ -41,7 +42,9 @@ namespace Api
                 //options.SuppressModelStateInvalidFilter = true;
             });
             services.AddDbContext<SocialMediaContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SocialMedia")));
+            services.AddTransient<IPublicacionService, PublicacionService>();
             services.AddTransient<IPublicacionRepo, PublicacionRepo>();
+            services.AddTransient<IUserRepo, UserRepo>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api", Version = "v1" });
